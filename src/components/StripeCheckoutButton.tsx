@@ -1,59 +1,51 @@
-'use client'
+"use client";
 
-import { loadStripe } from '@stripe/stripe-js'
-import { useState } from 'react'
+import { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-)
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 export default function CheckoutButton() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleCheckout = async () => {
     try {
-      setLoading(true)
-      
+      setLoading(true);
       const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        }
-      })
+        },
+      });
 
-      const data = await response.json()
+      const { sessionId } = await response.json();
+      
+      // Redirect to Stripe checkout
+      const stripe = await stripePromise;
+      if (!stripe) throw new Error('Stripe failed to initialize');
 
-      if (data.error) {
-        console.error('Error:', data.error)
-        return
-      }
+      const { error } = await stripe.redirectToCheckout({
+        sessionId,
+      });
 
-      const stripe = await stripePromise
-      if (!stripe) {
-        throw new Error('Stripe failed to load')
-      }
-
-      const result = await stripe.redirectToCheckout({
-        sessionId: data.sessionId
-      })
-
-      if (result.error) {
-        console.error('Stripe redirect error:', result.error)
+      if (error) {
+        throw error;
       }
     } catch (error) {
-      console.error('Error:', error)
+      console.error('Checkout error:', error);
+      alert('Failed to checkout. Please try again.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <button
       onClick={handleCheckout}
       disabled={loading}
-      className="w-full mt-4 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+      className="w-full px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
     >
       {loading ? 'Processing...' : 'Checkout'}
     </button>
-  )
+  );
 }

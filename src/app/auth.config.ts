@@ -29,8 +29,10 @@ export const authConfig = {
     },
   },
   pages: {
-    signIn: '/login',
+    signIn: '/auth/signin',
   },
+  trustHost: true,
+  secret: process.env.AUTH_SECRET
 } satisfies NextAuthConfig
 
 export default authConfig

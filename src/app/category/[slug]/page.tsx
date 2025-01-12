@@ -1,8 +1,8 @@
 import { getProductsByCategory } from "@/lib/actions";
 import ProductCard from "@/components/ProductCard";
 
-export default async function page({ params }: { params: { slug: string } }) {
-  const { slug } = await params;
+export default async function page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = (await params);
   const category = await getProductsByCategory(slug);
 
   if (!category) {
