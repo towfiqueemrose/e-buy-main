@@ -19,8 +19,17 @@ export default async function ProfilePage() {
     getUserData(session.user.email),
     getOrders(session.user.email)
   ]);
-
   const userImage = userData?.image || "/avatar.svg";
+  
+
+if(!orders) {
+  return (
+    <div className="mt-12 max-w-2xl mx-auto px-4">
+      <h2 className="text-2xl font-semibold text-center mb-6">No Orders Found</h2>
+    </div>
+  )
+}
+  
 
   return (
     <div className="mt-12 flex items-center justify-center gap-10 flex-col relative">
@@ -46,16 +55,14 @@ export default async function ProfilePage() {
         </Link>
         <SignOutButton className="flex-1" />
       </div>
-      {orders.length > 0 ? (
+      {orders && 
         <div className="space-y-4 w-full px-4">
           <h2 className="text-2xl font-semibold text-center mb-6">Your Orders</h2>
           {orders.map((order) => (
             <OrderItem key={order.id} order={order} />
           ))}
         </div>
-      ) : (
-        <p className="text-gray-500">No orders found</p>
-      )}
+  }
 
 
     </div>

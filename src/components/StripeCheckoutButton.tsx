@@ -43,7 +43,7 @@ export default function CheckoutButton() {
     <button
       onClick={handleCheckout}
       disabled={loading}
-      className="w-full px-6 py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
+      className="w-full px-6 mt-3 py-3 text-white bg-green-600 rounded-md hover:bg-green-700 disabled:bg-blue-300 transition-colors"
     >
       {loading ? 'Processing...' : 'Checkout'}
     </button>

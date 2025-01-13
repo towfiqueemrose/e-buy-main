@@ -46,7 +46,10 @@ export async function POST(req: Request) {
           currency: 'usd',
           product_data: {
             name: item.product.name,
-            images: [item.product.image]
+            images: [item.product.image],
+            metadata: {
+              databaseId: item.product.id  // এই লাইনটি যোগ করা হয়েছে
+            }
           },
           unit_amount: item.product.price * 100,
         },

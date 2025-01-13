@@ -1,3 +1,4 @@
+
 export interface user {
   id: string;
   email: string;
@@ -107,6 +108,8 @@ export interface OrderItemProps {
     id: string;
     createdAt: Date;
     total: number;
+    subtotal: number;
+    shippingFee: number;
     items: {
       id: string;
       quantity: number;
@@ -114,7 +117,41 @@ export interface OrderItemProps {
       product: {
         name: string;
         image: string;
+        price: number;
       };
     }[];
   };
-};;
+}
+
+interface Product {
+  name: string;
+  image: string;
+  price: number;
+}
+
+interface OrderItem {
+  id: string;
+  quantity: number;
+  price: number;
+  product: Product;
+}
+export interface Order {
+  id: string;
+  createdAt: Date;
+  total: number;
+  subtotal: number;
+  shippingFee: number;
+  items: OrderItem[];
+  orderStatus: 'PENDING' | 'PROCESSING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
+  paymentStatus: 'PENDING' | 'PAID' | 'FAILED' | 'REFUNDED';
+}
+
+export interface StripeCheckoutSession {
+  shipping?: {
+    address: {
+      line1: string;
+      city: string;
+      country: string;
+    };
+  };
+}

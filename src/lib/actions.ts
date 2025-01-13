@@ -514,7 +514,6 @@ export async function GET() {
 } 
 
 export async function getOrders(email: string) {
-  // First get the user ID from email
   const user = await prisma.user.findUnique({
     where: { email },
     select: { id: true }
@@ -579,6 +578,49 @@ export async function getOrderById(orderId: string) {
         },
       },
     },
+  });
+
+  return order;
+}
+
+export async function createOrder(data: {
+  userId: string;
+  items: {
+    productId: string;
+    quantity: number;
+    price: number;
+  }[];
+  subtotal: number;
+  shippingFee: number;
+  total: number;
+  deliveryAddress: string;
+  voucherCode?: string;
+  voucherAmount?: number;
+}) {
+  const order = await prisma.order.create({
+    data: {
+      userId: data.userId,
+      subtotal: data.subtotal,
+      shippingFee: data.shippingFee,
+      total: data.total,
+      deliveryAddress: data.deliveryAddress,
+      voucherCode: data.voucherCode,
+      voucherAmount: data.voucherAmount,
+      items: {
+        create: data.items.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: item.price
+        }))
+      }
+    },
+    include: {
+      items: {
+        include: {
+          product: true
+        }
+      }
+    }
   });
 
   return order;
