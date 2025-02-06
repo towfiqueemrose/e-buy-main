@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import { prisma } from "./client";
 import { CartResult, user } from "@/types/types";
 import { revalidatePath } from "next/cache";

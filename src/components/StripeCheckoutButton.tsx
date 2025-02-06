@@ -2,13 +2,25 @@
 
 import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { useRouter } from 'next/navigation';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-export default function CheckoutButton() {
+interface CheckoutButtonProps {
+  hasDeliveryAddress: boolean;
+}
+
+export default function CheckoutButton({ hasDeliveryAddress }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleCheckout = async () => {
+    if (!hasDeliveryAddress) {
+      alert('Please add a delivery address in your profile before checking out.');
+      router.push('/profile'); // Redirect to profile page
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await fetch('/api/checkout', {
@@ -19,7 +31,7 @@ export default function CheckoutButton() {
       });
 
       const { sessionId } = await response.json();
-      
+
       // Redirect to Stripe checkout
       const stripe = await stripePromise;
       if (!stripe) throw new Error('Stripe failed to initialize');

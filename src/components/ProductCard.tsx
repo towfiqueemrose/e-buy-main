@@ -6,7 +6,7 @@ export default function ProductCard({ id, name, price, image }: ProductCardTypes
   return (
     <Link
       href={`/products/${id}`}
-      className="border hover:scale-105 border-primary bg-white rounded-lg h-[250px] w-[180px] flex-shrink-0"
+      className="border hover:scale-105 transition-transform border-primary bg-white rounded-lg h-[250px] w-[180px] flex-shrink-0"
     >
       {/* Product Image */}
       <div className="flex justify-center">

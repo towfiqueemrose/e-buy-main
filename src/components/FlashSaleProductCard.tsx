@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function FlashSaleProductCard({ product }: { product: FlashSaleProductTypes }) {
     return (
-        <Link href={`/products/${product.id}`} className="border hover:scale-105 border-primary bg-white rounded-lg h-[220px] w-[150px] flex-shrink-0 m-1 mt-2">
+        <Link href={`/products/${product.id}`} className="border hover:scale-105 transition-transform border-primary bg-white rounded-lg h-[220px] w-[150px] flex-shrink-0 m-1 mt-2">
             <div className="flex justify-center">
                 <Image
                     src={product.image || ''}

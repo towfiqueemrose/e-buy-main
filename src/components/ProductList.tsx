@@ -10,7 +10,7 @@ export default function ProductList({ title, products }: {title: string, product
     <div className="my-8 rounded-md p-6 pl-3 ml-3">
       <h1 className="heading-green">{title}</h1>
       <div className="">
-        <div className="flex flex-wrap gap-3 items-center p-2">
+        <div className="flex flex-wrap gap-5 items-start justify-center  p-2">
           {products.map((product) => (
             <ProductCard key={product.id} {...product} />
           ))}

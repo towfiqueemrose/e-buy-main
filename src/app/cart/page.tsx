@@ -1,6 +1,5 @@
-
 import CartItem from '@/components/CartItem'
-import { getCartItems } from '@/lib/actions'
+import { getCartItems, getUserData } from '@/lib/actions'
 import { redirect } from 'next/navigation'
 import { auth } from '../auth'
 import CheckoutButton from '@/components/StripeCheckoutButton'
@@ -12,7 +11,11 @@ export default async function CartPage() {
     redirect('/auth/signin')
   }
 
-  const cartResult = await getCartItems(session.user.id)
+  // Fetch cart items and user data in parallel
+  const [cartResult, userData] = await Promise.all([
+    getCartItems(session.user.id),
+    getUserData(session.user.email as string)
+  ]);
 
   if ('error' in cartResult) {
     return (
@@ -61,7 +64,7 @@ export default async function CartPage() {
           <span className="font-semibold">Subtotal:</span>
           <span className="font-bold">${subtotal.toLocaleString()}</span>
         </div>
-        <CheckoutButton />
+        <CheckoutButton hasDeliveryAddress={Boolean(userData?.address)} />
       </div>
     </div>
   )
