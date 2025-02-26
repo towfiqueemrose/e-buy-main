@@ -3,7 +3,7 @@ import { addToCart } from '@/lib/actions'
 import { revalidatePath } from 'next/cache'
 import { AddToCartButton } from './AddToCartLoading'
 import { redirect } from 'next/navigation'
-import { auth } from '@/app/auth'
+import { auth } from '@/auth'
 
 export default function AddToCart({ 
   productId, 
