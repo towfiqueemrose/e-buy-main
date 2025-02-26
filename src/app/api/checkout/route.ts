@@ -1,4 +1,4 @@
-import { auth } from '@/app/auth'
+import { auth } from '@/auth'
 import { getCartItems } from '@/lib/actions'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
