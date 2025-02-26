@@ -2,7 +2,7 @@
 import UserInfo from "@/components/UserInfo";
 import Image from "next/image";
 import Link from "next/link";
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { getOrders, getUserData } from "@/lib/actions";
 import SignOutButton from "@/components/auth/SignOutButton";
