@@ -1,4 +1,4 @@
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import UpdateProfile from "@/components/UpdateProfile";
 import { getUserData } from "@/lib/actions";
